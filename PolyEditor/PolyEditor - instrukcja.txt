@@ -1,0 +1,13 @@
+Implementacja mechanizmu "relacji":
+- w ka¿dym wierzcho³ku trzymana jest informacja, czy jest czêœci¹ pionowej, 
+	poziomej krawêdzi,czy jest ustawiony sta³y k¹t, wartoœæ tego k¹ta
+	i wspó³czynniki kierunkowe prostch na których le¿¹ s¹siednie krawêdzie
+- w momencie przesuniêcia wierzcho³ka, aktualizujemy po³o¿enie kolejnych wierzcho³ków
+	tak, aby zachowane by³y relacje. Najpierw idziemy "w prawo" potem "w lewo"
+	po liœcie wierzcho³ków
+
+
+- klawisz Delete usuwa wielok¹t wybrany na liœcie
+- klikniêcie PPM na liœcie pojawia lub znika wybrany wielok¹t
+- klikniêcie PPM na krawêdzi dodaje na niej wierzcho³ek
+- kombinacja klawiszy Shift + LPM pozwala przenosiæ ca³y wybrany na liœcie wielok¹t
