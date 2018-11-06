@@ -17,8 +17,7 @@ namespace Filling
         private (Vertice v, Polygon p) selectedV = (null, null);
         private List<Polygon> Polygons { get; set; }
         private DirectBitmap Picture { get; set; }
-        private Color LightColor { get; set; }
-        private Vector LightSource { get; set; }
+        private PixelModyfication SceneModyfication { get; set; }
 
         public MainForm()
         {
@@ -26,8 +25,12 @@ namespace Filling
             Polygons = new List<Polygon>();
             Picture = new DirectBitmap(pictureBox.ClientSize.Width, pictureBox.ClientSize.Height, Color.White);
 
-            LightColor = Color.FromArgb(1, 1, 1);
-            LightSource = new Vector { X = 0, Y = 0, Z = 200 };
+            Color light = Color.White;
+            SceneModyfication = new PixelModyfication
+            {
+                LightColor = Color.FromArgb(light.R/255, light.G/255, light.B/255),
+                LightSource = new Vector { X = 0, Y = 0, Z = 200 }
+            };
 
             pictureBox.Image = Picture.Bitmap;
             this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
@@ -86,6 +89,7 @@ namespace Filling
                     prev = v;
                 }
             }
+            Picture.AlterPixels(SceneModyfication.CalculateColor);
             //Picture.Bitmap = pictureBox.Image as Bitmap;
             //Color c;
             //for (int i = 0; i < pictureBox.Width; i++)
@@ -211,7 +215,8 @@ namespace Filling
                             for (int j = (int)e1.X; j <= (int)e2.X; j++)
                             {
                                 //g.FillRectangle(Brushes.Green, j, y, 1, 1);
-                                Picture.SetPixel(j, y, CalculateColor(col, GetVersor(new Point(j, y), LightSource)));
+                                //Picture.SetPixel(j, y, col);
+                                Picture.SetPixel(j, y, SceneModyfication.CalculateColor(col, j, y));
                             }
                             fill = false;
                         }
@@ -224,28 +229,6 @@ namespace Filling
             //stopwatch.Stop();
             //Text = stopwatch.ElapsedMilliseconds.ToString();
         }
-
-        private int CalculateColor(Color col, Vector l)
-        {
-            // TODO What is right representation of colour?
-            double dot = DotProduct(new Vector(0, 0, 1), l);
-            int r = (int)(LightColor.R * col.R * dot);
-            int g = (int)(LightColor.G * col.G * dot);
-            int b = (int)(LightColor.B * col.B * dot);
-            return Color.FromArgb(col.A, r, g, b).ToArgb();
-        }
-
-        private Vector GetVersor(Point from, Vector to)
-        {
-            Vector res = new Vector { X = to.X - from.X, Y = to.Y - from.Y, Z = to.Z };
-            double d = Math.Sqrt(res.X * res.X + res.Y * res.Y + res.Z * res.Z);
-            res.X = res.X / d;
-            res.Y = res.Y / d;
-            res.Z = res.Z / d;
-            return res;
-        }
-
-        private double DotProduct(Vector v1, Vector v2) => v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
 
 
         //private void FillPolygon(Graphics g, Polygon p, Color col, Versor light)

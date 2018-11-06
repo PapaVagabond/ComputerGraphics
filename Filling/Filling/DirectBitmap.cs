@@ -30,6 +30,20 @@ namespace Filling
             BackgroundArgb = background.ToArgb();
         }
 
+        public void AlterPixels(Func<Color, int, int, int> fun)
+        {
+            for (int i = 0; i < Bits.Length; i++)
+                Bits[i] = fun(Color.FromArgb(Bits[i]), 0, 0);
+
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Height; j++)
+                {
+                    //Bits[k] = fun(Color.FromArgb(Bits[k]), i, j);
+                    Bits[i + j * Width] = fun(Color.FromArgb(Bits[i + j * Width]), i, j);
+                }
+            }
+        }
         //We assume coordinates are correct
         public void SetPixel(int x, int y, Color colour)
         {
