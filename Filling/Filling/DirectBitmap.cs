@@ -30,6 +30,7 @@ namespace Filling
             BackgroundArgb = background.ToArgb();
         }
 
+        //Not used
         public void AlterPixels(Func<Color, int, int, int> fun)
         {
             for (int i = 0; i < Bits.Length; i++)

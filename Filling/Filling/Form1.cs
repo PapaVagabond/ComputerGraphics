@@ -18,6 +18,7 @@ namespace Filling
         private List<Polygon> Polygons { get; set; }
         private DirectBitmap Picture { get; set; }
         private PixelModyfication SceneModyfication { get; set; }
+        private bool BitmapProcessing { get; set; } = false;
 
         public MainForm()
         {
@@ -25,12 +26,9 @@ namespace Filling
             Polygons = new List<Polygon>();
             Picture = new DirectBitmap(pictureBox.ClientSize.Width, pictureBox.ClientSize.Height, Color.White);
 
-            Color light = Color.White;
-            SceneModyfication = new PixelModyfication
-            {
-                LightColor = Color.FromArgb(light.R/255, light.G/255, light.B/255),
-                LightSource = new Vector { X = 0, Y = 0, Z = 200 }
-            };
+            SceneModyfication = new PixelModyfication(Picture);
+            SceneModyfication.SetLightColor(Color.White);
+            SceneModyfication.SetLightSource(new Vector { X = 0, Y = 0, Z = 200 });
 
             pictureBox.Image = Picture.Bitmap;
             this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
@@ -77,11 +75,9 @@ namespace Filling
         private void UpdateBitmap()
         {
             Picture.Clear();
-            Point t;
             foreach (Polygon p in Polygons)
             {
                 Vertice prev = p.Vertices[p.Vertices.Length - 1];
-                //FillPolygon(e.Graphics, p, Color.Green, light);
                 FillPolygon(p, Color.Green);
                 foreach (Vertice v in p.Vertices)
                 {
@@ -89,18 +85,9 @@ namespace Filling
                     prev = v;
                 }
             }
-            Picture.AlterPixels(SceneModyfication.CalculateColor);
-            //Picture.Bitmap = pictureBox.Image as Bitmap;
-            //Color c;
-            //for (int i = 0; i < pictureBox.Width; i++)
-            //{
-            //    for (int j = 0; j < pictureBox.Height; j++)
-            //    {
-            //        c = Picture.GetPixel(i, j);
-            //        Picture.SetPixel(i, j, Color.FromArgb(c.A, c.R, c.G / 2, c.B / 2));
-            //    }
-            //}
-            pictureBox.Image = Picture.Bitmap;
+            //Picture.AlterPixels(SceneModyfication.CalculateColor);
+            SceneModyfication.AlterPixels();
+            pictureBox.Refresh();
         }
 
         private void VerticesTabInit()
@@ -215,8 +202,8 @@ namespace Filling
                             for (int j = (int)e1.X; j <= (int)e2.X; j++)
                             {
                                 //g.FillRectangle(Brushes.Green, j, y, 1, 1);
-                                //Picture.SetPixel(j, y, col);
-                                Picture.SetPixel(j, y, SceneModyfication.CalculateColor(col, j, y));
+                                Picture.SetPixel(j, y, col);
+                                //Picture.SetPixel(j, y, SceneModyfication.CalculateColor(col, j, y));
                             }
                             fill = false;
                         }
@@ -385,15 +372,15 @@ namespace Filling
                     selectedV.p.UpdateProperties();
                     //pictureBox.Invalidate();
                     UpdateBitmap();
-                    Text = e.X.ToString() + "," + e.Y.ToString();
                 }
             }
         }
 
         private void btnTest_Click(object sender, EventArgs e)
         {
-            Text = (Color.Red.ToArgb()).ToString();
-            pictureBox.Image = Picture.Bitmap;
+            SceneModyfication.SetLightColor(Color.Yellow);
+            //SceneModyfication.SetLightSource(new Vector { X = 0, Y = 0, Z = 400 }, true);
+            UpdateBitmap();
         }
     }
 }
