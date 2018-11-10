@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,12 +14,16 @@ namespace Filling
 {
     public partial class MainForm : Form
     {
+        // TODO Change accesability
         private const int D = 6;
         private bool isVerticeSelected = false;
         private (Vertice v, Polygon p) selectedV = (null, null);
         private List<Polygon> Polygons { get; set; }
         private DirectBitmap Picture { get; set; }
+        private Color ObjectColor { get; set; }
         private PixelModyfication SceneModyfication { get; set; }
+        private Bitmap ObjectTexture { get; set; }
+        private bool HasObjectTexture { get; set; } = false;
         private bool BitmapProcessing { get; set; } = false;
 
         public MainForm()
@@ -25,13 +31,20 @@ namespace Filling
             InitializeComponent();
             Polygons = new List<Polygon>();
             Picture = new DirectBitmap(pictureBox.ClientSize.Width, pictureBox.ClientSize.Height, Color.White);
-
             SceneModyfication = new PixelModyfication(Picture);
             SceneModyfication.SetLightColor(Color.White);
             SceneModyfication.SetLightSource(new Vector { X = 0, Y = 0, Z = 200 });
+            SceneModyfication.SetLightRegular();
+
+            ObjectColor = Color.GreenYellow;
+            ObjectTexture = AdjustToFitRectangle(Properties.Resources.dirt_texture, new Size(Picture.Width, Picture.Height));
+            SceneModyfication.SetNormalMap(AdjustToFitRectangle(Properties.Resources.normal_map,SceneModyfication.Bitmap.Bitmap.Size));
+            pbObjectColor.BackColor = ObjectColor;
+            pbObjectTexture.BackgroundImage = AdjustToFitRectangle(ObjectTexture, pbObjectTexture.Size);
+            pbNormalMap.BackgroundImage = AdjustToFitRectangle(Properties.Resources.normal_map, pbNormalMap.Size);
 
             pictureBox.Image = Picture.Bitmap;
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
+            //this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true);
             VerticesTabInit();
             UpdateBitmap();
         }
@@ -78,7 +91,7 @@ namespace Filling
             foreach (Polygon p in Polygons)
             {
                 Vertice prev = p.Vertices[p.Vertices.Length - 1];
-                FillPolygon(p, Color.Green);
+                FillPolygon(p);
                 foreach (Vertice v in p.Vertices)
                 {
                     DrawLine(Color.Black, prev.Location, v.Location);
@@ -136,7 +149,7 @@ namespace Filling
             //UpdateBitmap();
         }
 
-        private void FillPolygon(Polygon p, Color col)
+        private void FillPolygon(Polygon p)
         {
             //Stopwatch stopwatch = Stopwatch.StartNew();
             int i = 0, k, maxY = Math.Min(p.YMax, pictureBox.Height);
@@ -189,6 +202,9 @@ namespace Filling
                 foreach (Edge edge in AET)
                     edge.X += edge.Ctg;
 
+                if (y >= Picture.Height)
+                    return;
+
                 if (y >= 0)
                 {
                     AET.Sort();
@@ -199,10 +215,10 @@ namespace Filling
                     {
                         if (fill)
                         {
-                            for (int j = (int)e1.X; j <= (int)e2.X; j++)
+                            for (int j = Math.Max((int)e1.X, 0); j < Math.Min((int)e2.X,Picture.Width); j++)
                             {
                                 //g.FillRectangle(Brushes.Green, j, y, 1, 1);
-                                Picture.SetPixel(j, y, col);
+                                Picture.SetPixel(j, y, HasObjectTexture ? ObjectTexture.GetPixel(j, y) : ObjectColor);
                                 //Picture.SetPixel(j, y, SceneModyfication.CalculateColor(col, j, y));
                             }
                             fill = false;
@@ -370,16 +386,128 @@ namespace Filling
                 {
                     selectedV.v.Location = e.Location;
                     selectedV.p.UpdateProperties();
-                    //pictureBox.Invalidate();
                     UpdateBitmap();
                 }
             }
         }
 
-        private void btnTest_Click(object sender, EventArgs e)
+        private void btnSetLightColour_Click(object sender, EventArgs e)
         {
-            SceneModyfication.SetLightColor(Color.Yellow);
-            //SceneModyfication.SetLightSource(new Vector { X = 0, Y = 0, Z = 400 }, true);
+            DialogResult result = dialogSetLightColor.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                SceneModyfication.SetLightColor(dialogSetLightColor.Color);
+                pbLightColor.BackColor = dialogSetLightColor.Color;
+                UpdateBitmap();
+            }
+        }
+
+        private void btnSetObjectColor_Click(object sender, EventArgs e)
+        {
+            DialogResult result = dialogSetLightColor.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                ObjectColor = dialogSetLightColor.Color;
+                pbObjectColor.BackColor = dialogSetLightColor.Color;
+                UpdateBitmap();
+            }
+        }
+
+        private void rbObjectColor2_CheckedChanged(object sender, EventArgs e)
+        {
+            btnSetObjectColor.Enabled = false;
+            btnSetObjectTexture.Enabled = true;
+            HasObjectTexture = true;
+            UpdateBitmap();
+        }
+
+        private void btnSetObjectTexture_Click(object sender, EventArgs e)
+        {
+            DialogResult result = openFileDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                Image img = Image.FromFile(openFileDialog.FileName);
+                ObjectTexture = AdjustToFitRectangle(img, ObjectTexture.Size);
+                pbObjectTexture.BackgroundImage = AdjustToFitRectangle(img, pbObjectTexture.Size);
+                UpdateBitmap();
+            }
+        }
+
+        private Bitmap AdjustToFitRectangle(Image img, Size size)
+        {
+            int w, h;
+            if (img.Width<size.Width && img.Height<size.Height)
+            {
+                Bitmap srcBmp = new Bitmap(img); 
+                Bitmap destBmp = new Bitmap(size.Width, size.Height);
+                for(int x=0;x<destBmp.Width;x+=srcBmp.Width)
+                {
+                    for(int y=0;y<destBmp.Height;y+=srcBmp.Height)
+                    {
+                        w = Math.Min(img.Width, size.Width - x);
+                        h = Math.Min(img.Height, size.Height - y);
+                        for(int i=0;i<w;i++)
+                            for (int j = 0; j < h; j++)
+                                destBmp.SetPixel(x + i, y + j, srcBmp.GetPixel(i, j));
+                    }
+                }
+                return destBmp;
+            }
+            // TODO other cases
+            w = img.Width * size.Height / img.Height;
+            if (w >= size.Width)
+                h = size.Height;
+            else
+            {
+                w = size.Width;
+                h = img.Height * pbObjectTexture.Width / img.Width;
+            }
+            return CropImage(ResizeImage(img, w, h), new Rectangle(0, 0, w, h));
+        }
+
+        private Bitmap CropImage(Image img, Rectangle cropArea)
+        {
+            Bitmap bmpImage = new Bitmap(img);
+            return bmpImage.Clone(cropArea, bmpImage.PixelFormat);
+        }
+
+        private Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
+        private void rbObjectColor1_CheckedChanged(object sender, EventArgs e)
+        {
+            btnSetObjectColor.Enabled = true;
+            btnSetObjectTexture.Enabled = false;
+            HasObjectTexture = false;
+            UpdateBitmap();
+        }
+
+        private void rbNormal2_CheckedChanged(object sender, EventArgs e)
+        {
+            btnSetNormalMap.Enabled = true;
+            SceneModyfication.UseNormalMap();
             UpdateBitmap();
         }
     }

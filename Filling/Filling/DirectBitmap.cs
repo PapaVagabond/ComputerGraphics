@@ -20,6 +20,13 @@ namespace Filling
 
         protected GCHandle BitsHandle { get; private set; }
 
+        public DirectBitmap(Bitmap bmp) : this(bmp.Width,bmp.Height)
+        {
+            for(int i=0;i<bmp.Width;i++)
+                for (int j = 0; j < bmp.Height; j++)
+                    Bitmap.SetPixel(i, j, bmp.GetPixel(i, j));
+        }
+        public DirectBitmap(int width, int height) : this(width,height,Color.White) { }
         public DirectBitmap(int width, int height, Color background)
         {
             Width = width;

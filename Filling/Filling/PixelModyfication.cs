@@ -9,12 +9,14 @@ namespace Filling
 {
     class PixelModyfication
     {
-        private DirectBitmap Bitmap;
+        public DirectBitmap Bitmap { get; private set; }
         private Vector LightSource;
         private double[,] DotProducts;
         private Vector[,] NormalVectors;
-        private (double R,double G,double B) LightColor;
+        public DirectBitmap NormalMap { get; private set; }
+        private (double R, double G, double B) LightColor;
         private bool isLightRegular;
+        private bool isNormalMapUsed;
 
         public PixelModyfication(DirectBitmap db)
         {
@@ -22,19 +24,53 @@ namespace Filling
             SetLightColor(Color.White);
             DotProducts = new double[db.Width, db.Height];
             NormalVectors = new Vector[db.Width, db.Height];
-            for (int i=0;i<DotProducts.GetLength(0);i++)
+            for (int i = 0; i < DotProducts.GetLength(0); i++)
             {
                 for (int j = 0; j < DotProducts.GetLength(1); j++)
                 {
-                    NormalVectors[i,j] = new Vector(0, 0, 1);
+                    NormalVectors[i, j] = new Vector(0, 0, 1);
                     DotProducts[i, j] = DotProduct(NormalVectors[i, j], isLightRegular ? GetVersor(new Point(0, 0), LightSource) : GetVersor(new Point(i, j), LightSource));
                 }
             }
         }
 
+        public void UseNormalMap()
+        {
+            if (NormalMap == null)
+                return;
+
+            Vector vector;
+            for (int i = 0; i < NormalVectors.GetLength(0); i++)
+                for (int j = 0; j < NormalVectors.GetLength(1); j++)
+                {
+                    Color pixel = NormalMap.GetPixel(i, j);
+                    //vector = new Vector((double)pixel.R * 2 / 255 - 1, (double)pixel.G * 2 / 255 - 1, (double)pixel.B * 2 / 255 - 1);
+                    //NormalVectors[i, j] = GetVersor(vector);
+                    NormalVectors[i, j].X = (double)pixel.R * 2 / 255 - 1;
+                    NormalVectors[i, j].Y = (double)pixel.G * 2 / 255 - 1;
+                    NormalVectors[i, j].Z = (double)pixel.B * 2 / 255 - 1;
+                }
+
+            CalculateDots();
+        }
+
+        public void UseStandardNormalVectors()
+        {
+            Vector v = new Vector { X = 0, Y = 0, Z = 1 };
+            for (int i = 0; i < NormalVectors.GetLength(0); i++)
+                for (int j = 0; j < NormalVectors.GetLength(1); j++)
+                    NormalVectors[i, j] = v;
+            CalculateDots();
+        }
+
+        public void SetNormalMap(Bitmap bmp)
+        {
+            NormalMap = new DirectBitmap(bmp);
+        }
+
         public void SetLightColor(Color col)
         {
-            LightColor = ((double)col.R/255, (double)col.G/255, (double)col.B/255);
+            LightColor = ((double)col.R / 255, (double)col.G / 255, (double)col.B / 255);
         }
 
         public void SetLightSource(Vector location, bool regular = false)
@@ -44,13 +80,35 @@ namespace Filling
             CalculateDots();
         }
 
+        public void SetLightRegular()
+        {
+            isLightRegular = true;
+            CalculateDots();
+        }
+        //private void CalculateNormalVectors()
+        //{
+        //    for (int i = 0; i < NormalMap.Width; i++)
+        //        for (int j = 0; j < NormalMap.Height; j++)
+        //        {
+        //            Color pixel = NormalMap.GetPixel(i, j);
+        //            NormalVectors[i, j].X = (double)pixel.R * 2 / 255 - 1;
+        //            NormalVectors[i, j].Y = (double)pixel.G * 2 / 255 - 1;
+        //            NormalVectors[i, j].Z = (double)pixel.B * 2 / 255 - 1;
+        //        }
+        //    CalculateDots();
+        //}
+
         private void CalculateDots()
         {
             for (int i = 0; i < DotProducts.GetLength(0); i++)
             {
                 for (int j = 0; j < DotProducts.GetLength(1); j++)
                 {
-                    DotProducts[i, j] = DotProduct(NormalVectors[i, j], isLightRegular ? GetVersor(new Point(0,0), LightSource) : GetVersor(new Point(i, j), LightSource));
+                    DotProducts[i, j] = DotProduct(NormalVectors[i, j], isLightRegular ? GetVersor(new Point(0, 0), LightSource) : GetVersor(new Point(i, j), LightSource));
+                    if (DotProducts[i, j] > 1)
+                        DotProducts[i, j] = 1;
+                    else if (DotProducts[i, j] < 0)
+                        DotProducts[i, j] = 0;
                 }
             }
         }
@@ -79,6 +137,12 @@ namespace Filling
             int g = (int)(LightColor.G * col.G * DotProducts[x, y]);
             int b = (int)(LightColor.B * col.B * DotProducts[x, y]);
             return Color.FromArgb(col.A, r, g, b).ToArgb();
+        }
+
+        private Vector GetVersor(Vector v)
+        {
+            double d = Math.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
+            return new Vector(v.X / d, v.Y / d, v.Z / d);
         }
 
         private Vector GetVersor(Point from, Vector to)
