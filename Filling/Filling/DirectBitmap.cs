@@ -17,6 +17,7 @@ namespace Filling
         public int Height { get; private set; }
         public int Width { get; private set; }
         public int BackgroundArgb { get; private set; }
+        public Size Size { get => Bitmap.Size; }
 
         protected GCHandle BitsHandle { get; private set; }
 

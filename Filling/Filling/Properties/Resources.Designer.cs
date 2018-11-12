@@ -63,6 +63,16 @@ namespace Filling.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap brick_heightmap {
+            get {
+                object obj = ResourceManager.GetObject("brick_heightmap", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap dirt_texture {
             get {
                 object obj = ResourceManager.GetObject("dirt_texture", resourceCulture);

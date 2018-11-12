@@ -92,5 +92,8 @@
   <ItemGroup>
     <None Include="Resources\normal_map.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\brick_heightmap.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

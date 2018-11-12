@@ -28,47 +28,50 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.rbLightSource2 = new System.Windows.Forms.RadioButton();
+            this.rbLightSource1 = new System.Windows.Forms.RadioButton();
             this.panelForGroupBoxes = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnSetNormalMap = new System.Windows.Forms.Button();
-            this.rbLabel1 = new System.Windows.Forms.Label();
-            this.rbNormal2 = new System.Windows.Forms.RadioButton();
             this.rbNormal1 = new System.Windows.Forms.RadioButton();
+            this.pbNormalMap = new System.Windows.Forms.PictureBox();
+            this.btnSetNormalMap = new System.Windows.Forms.Button();
+            this.rbNormal2 = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.rbD1 = new System.Windows.Forms.RadioButton();
+            this.pbHeightMap = new System.Windows.Forms.PictureBox();
             this.btnSetHeightMap = new System.Windows.Forms.Button();
             this.rbD2 = new System.Windows.Forms.RadioButton();
-            this.rbLabel2 = new System.Windows.Forms.Label();
-            this.rbD1 = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.pbObjectTexture = new System.Windows.Forms.PictureBox();
             this.btnSetObjectTexture = new System.Windows.Forms.Button();
             this.rbObjectColor2 = new System.Windows.Forms.RadioButton();
             this.rbObjectColor1 = new System.Windows.Forms.RadioButton();
+            this.pbObjectColor = new System.Windows.Forms.PictureBox();
             this.btnSetObjectColor = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btnSetLightColour = new System.Windows.Forms.Button();
-            this.dialogSetLightColor = new System.Windows.Forms.ColorDialog();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.pbNormalMap = new System.Windows.Forms.PictureBox();
-            this.pbHeightMap = new System.Windows.Forms.PictureBox();
-            this.pbObjectTexture = new System.Windows.Forms.PictureBox();
-            this.pbObjectColor = new System.Windows.Forms.PictureBox();
             this.pbLightColor = new System.Windows.Forms.PictureBox();
             this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.dialogSetLightColor = new System.Windows.Forms.ColorDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.timerAnimateLight = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.panelForGroupBoxes.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox4.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbNormalMap)).BeginInit();
+            this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbHeightMap)).BeginInit();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbObjectTexture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbObjectColor)).BeginInit();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLightColor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
@@ -97,6 +100,8 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.rbLightSource2);
+            this.groupBox5.Controls.Add(this.rbLightSource1);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.groupBox5.Location = new System.Drawing.Point(0, 403);
@@ -105,6 +110,31 @@
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Vector to light source";
+            // 
+            // rbLightSource2
+            // 
+            this.rbLightSource2.AutoSize = true;
+            this.rbLightSource2.Location = new System.Drawing.Point(118, 21);
+            this.rbLightSource2.Name = "rbLightSource2";
+            this.rbLightSource2.Size = new System.Drawing.Size(86, 36);
+            this.rbLightSource2.TabIndex = 1;
+            this.rbLightSource2.TabStop = true;
+            this.rbLightSource2.Text = "Animate\r\non sphere";
+            this.rbLightSource2.UseVisualStyleBackColor = true;
+            this.rbLightSource2.CheckedChanged += new System.EventHandler(this.rbLightSource2_CheckedChanged);
+            // 
+            // rbLightSource1
+            // 
+            this.rbLightSource1.AutoSize = true;
+            this.rbLightSource1.Checked = true;
+            this.rbLightSource1.Location = new System.Drawing.Point(8, 21);
+            this.rbLightSource1.Name = "rbLightSource1";
+            this.rbLightSource1.Size = new System.Drawing.Size(78, 36);
+            this.rbLightSource1.TabIndex = 0;
+            this.rbLightSource1.TabStop = true;
+            this.rbLightSource1.Text = "Constant\r\n[0,0,1]";
+            this.rbLightSource1.UseVisualStyleBackColor = true;
+            this.rbLightSource1.CheckedChanged += new System.EventHandler(this.rbLightSource1_CheckedChanged);
             // 
             // panelForGroupBoxes
             // 
@@ -118,11 +148,10 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.rbNormal1);
             this.groupBox3.Controls.Add(this.pbNormalMap);
             this.groupBox3.Controls.Add(this.btnSetNormalMap);
-            this.groupBox3.Controls.Add(this.rbLabel1);
             this.groupBox3.Controls.Add(this.rbNormal2);
-            this.groupBox3.Controls.Add(this.rbNormal1);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Right;
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.groupBox3.Location = new System.Drawing.Point(110, 0);
@@ -133,31 +162,48 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Normal vectors";
             // 
+            // rbNormal1
+            // 
+            this.rbNormal1.AutoSize = true;
+            this.rbNormal1.Checked = true;
+            this.rbNormal1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.rbNormal1.Location = new System.Drawing.Point(8, 20);
+            this.rbNormal1.Name = "rbNormal1";
+            this.rbNormal1.Size = new System.Drawing.Size(78, 36);
+            this.rbNormal1.TabIndex = 9;
+            this.rbNormal1.TabStop = true;
+            this.rbNormal1.Text = "Constant\r\n[0,0,1]";
+            this.rbNormal1.UseVisualStyleBackColor = true;
+            this.rbNormal1.CheckedChanged += new System.EventHandler(this.rbNormal1_CheckedChanged);
+            // 
+            // pbNormalMap
+            // 
+            this.pbNormalMap.BackColor = System.Drawing.Color.White;
+            this.pbNormalMap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pbNormalMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbNormalMap.Enabled = false;
+            this.pbNormalMap.Location = new System.Drawing.Point(8, 124);
+            this.pbNormalMap.Name = "pbNormalMap";
+            this.pbNormalMap.Size = new System.Drawing.Size(96, 96);
+            this.pbNormalMap.TabIndex = 8;
+            this.pbNormalMap.TabStop = false;
+            // 
             // btnSetNormalMap
             // 
             this.btnSetNormalMap.Enabled = false;
             this.btnSetNormalMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnSetNormalMap.Location = new System.Drawing.Point(8, 94);
+            this.btnSetNormalMap.Location = new System.Drawing.Point(8, 93);
             this.btnSetNormalMap.Name = "btnSetNormalMap";
             this.btnSetNormalMap.Size = new System.Drawing.Size(96, 25);
             this.btnSetNormalMap.TabIndex = 7;
             this.btnSetNormalMap.Text = "Load texture";
             this.btnSetNormalMap.UseVisualStyleBackColor = true;
-            // 
-            // rbLabel1
-            // 
-            this.rbLabel1.AutoSize = true;
-            this.rbLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.rbLabel1.Location = new System.Drawing.Point(25, 49);
-            this.rbLabel1.Name = "rbLabel1";
-            this.rbLabel1.Size = new System.Drawing.Size(50, 16);
-            this.rbLabel1.TabIndex = 2;
-            this.rbLabel1.Text = "[0,0,1]";
+            this.btnSetNormalMap.Click += new System.EventHandler(this.btnSetNormalMap_Click);
             // 
             // rbNormal2
             // 
             this.rbNormal2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.rbNormal2.Location = new System.Drawing.Point(8, 68);
+            this.rbNormal2.Location = new System.Drawing.Point(8, 62);
             this.rbNormal2.Name = "rbNormal2";
             this.rbNormal2.Size = new System.Drawing.Size(100, 25);
             this.rbNormal2.TabIndex = 1;
@@ -165,25 +211,12 @@
             this.rbNormal2.UseVisualStyleBackColor = true;
             this.rbNormal2.CheckedChanged += new System.EventHandler(this.rbNormal2_CheckedChanged);
             // 
-            // rbNormal1
-            // 
-            this.rbNormal1.Checked = true;
-            this.rbNormal1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.rbNormal1.Location = new System.Drawing.Point(8, 21);
-            this.rbNormal1.Name = "rbNormal1";
-            this.rbNormal1.Size = new System.Drawing.Size(100, 25);
-            this.rbNormal1.TabIndex = 0;
-            this.rbNormal1.TabStop = true;
-            this.rbNormal1.Text = "Constant";
-            this.rbNormal1.UseVisualStyleBackColor = true;
-            // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.rbD1);
             this.groupBox4.Controls.Add(this.pbHeightMap);
             this.groupBox4.Controls.Add(this.btnSetHeightMap);
             this.groupBox4.Controls.Add(this.rbD2);
-            this.groupBox4.Controls.Add(this.rbLabel2);
-            this.groupBox4.Controls.Add(this.rbD1);
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.groupBox4.Location = new System.Drawing.Point(0, 0);
@@ -194,48 +227,53 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Depth";
             // 
+            // rbD1
+            // 
+            this.rbD1.AutoSize = true;
+            this.rbD1.Checked = true;
+            this.rbD1.Location = new System.Drawing.Point(8, 21);
+            this.rbD1.Name = "rbD1";
+            this.rbD1.Size = new System.Drawing.Size(78, 36);
+            this.rbD1.TabIndex = 10;
+            this.rbD1.TabStop = true;
+            this.rbD1.Text = "Constant\r\n[0,0,0]";
+            this.rbD1.UseVisualStyleBackColor = true;
+            this.rbD1.CheckedChanged += new System.EventHandler(this.rbD1_CheckedChanged);
+            // 
+            // pbHeightMap
+            // 
+            this.pbHeightMap.BackColor = System.Drawing.Color.White;
+            this.pbHeightMap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pbHeightMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbHeightMap.Enabled = false;
+            this.pbHeightMap.Location = new System.Drawing.Point(8, 124);
+            this.pbHeightMap.Name = "pbHeightMap";
+            this.pbHeightMap.Size = new System.Drawing.Size(96, 96);
+            this.pbHeightMap.TabIndex = 9;
+            this.pbHeightMap.TabStop = false;
+            // 
             // btnSetHeightMap
             // 
             this.btnSetHeightMap.Enabled = false;
             this.btnSetHeightMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnSetHeightMap.Location = new System.Drawing.Point(8, 94);
+            this.btnSetHeightMap.Location = new System.Drawing.Point(8, 93);
             this.btnSetHeightMap.Name = "btnSetHeightMap";
             this.btnSetHeightMap.Size = new System.Drawing.Size(96, 25);
             this.btnSetHeightMap.TabIndex = 8;
             this.btnSetHeightMap.Text = "Load texture";
             this.btnSetHeightMap.UseVisualStyleBackColor = true;
+            this.btnSetHeightMap.Click += new System.EventHandler(this.btnSetHeightMap_Click);
             // 
             // rbD2
             // 
             this.rbD2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.rbD2.Location = new System.Drawing.Point(8, 68);
+            this.rbD2.Location = new System.Drawing.Point(8, 62);
             this.rbD2.Name = "rbD2";
             this.rbD2.Size = new System.Drawing.Size(100, 25);
             this.rbD2.TabIndex = 4;
             this.rbD2.Text = "From texture";
             this.rbD2.UseVisualStyleBackColor = true;
-            // 
-            // rbLabel2
-            // 
-            this.rbLabel2.AutoSize = true;
-            this.rbLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.rbLabel2.Location = new System.Drawing.Point(25, 49);
-            this.rbLabel2.Name = "rbLabel2";
-            this.rbLabel2.Size = new System.Drawing.Size(50, 16);
-            this.rbLabel2.TabIndex = 3;
-            this.rbLabel2.Text = "[0,0,1]";
-            // 
-            // rbD1
-            // 
-            this.rbD1.Checked = true;
-            this.rbD1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.rbD1.Location = new System.Drawing.Point(8, 21);
-            this.rbD1.Name = "rbD1";
-            this.rbD1.Size = new System.Drawing.Size(100, 25);
-            this.rbD1.TabIndex = 1;
-            this.rbD1.TabStop = true;
-            this.rbD1.Text = "Constant";
-            this.rbD1.UseVisualStyleBackColor = true;
+            this.rbD2.CheckedChanged += new System.EventHandler(this.rbD2_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -253,6 +291,18 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Object color";
+            // 
+            // pbObjectTexture
+            // 
+            this.pbObjectTexture.BackColor = System.Drawing.Color.White;
+            this.pbObjectTexture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pbObjectTexture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbObjectTexture.Enabled = false;
+            this.pbObjectTexture.Location = new System.Drawing.Point(114, 78);
+            this.pbObjectTexture.Name = "pbObjectTexture";
+            this.pbObjectTexture.Size = new System.Drawing.Size(96, 25);
+            this.pbObjectTexture.TabIndex = 7;
+            this.pbObjectTexture.TabStop = false;
             // 
             // btnSetObjectTexture
             // 
@@ -287,6 +337,16 @@
             this.rbObjectColor1.UseVisualStyleBackColor = true;
             this.rbObjectColor1.CheckedChanged += new System.EventHandler(this.rbObjectColor1_CheckedChanged);
             // 
+            // pbObjectColor
+            // 
+            this.pbObjectColor.BackColor = System.Drawing.Color.White;
+            this.pbObjectColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbObjectColor.Location = new System.Drawing.Point(8, 78);
+            this.pbObjectColor.Name = "pbObjectColor";
+            this.pbObjectColor.Size = new System.Drawing.Size(96, 25);
+            this.pbObjectColor.TabIndex = 3;
+            this.pbObjectColor.TabStop = false;
+            // 
             // btnSetObjectColor
             // 
             this.btnSetObjectColor.Location = new System.Drawing.Point(8, 47);
@@ -320,56 +380,6 @@
             this.btnSetLightColour.UseVisualStyleBackColor = true;
             this.btnSetLightColour.Click += new System.EventHandler(this.btnSetLightColour_Click);
             // 
-            // openFileDialog
-            // 
-            this.openFileDialog.Filter = "Image Files(*.bmp;*.jpg;*.png)|*.bmp;*.jpg;*.png";
-            // 
-            // pbNormalMap
-            // 
-            this.pbNormalMap.BackColor = System.Drawing.Color.White;
-            this.pbNormalMap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pbNormalMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbNormalMap.Enabled = false;
-            this.pbNormalMap.Location = new System.Drawing.Point(8, 125);
-            this.pbNormalMap.Name = "pbNormalMap";
-            this.pbNormalMap.Size = new System.Drawing.Size(96, 96);
-            this.pbNormalMap.TabIndex = 8;
-            this.pbNormalMap.TabStop = false;
-            // 
-            // pbHeightMap
-            // 
-            this.pbHeightMap.BackColor = System.Drawing.Color.White;
-            this.pbHeightMap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pbHeightMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbHeightMap.Enabled = false;
-            this.pbHeightMap.Location = new System.Drawing.Point(8, 125);
-            this.pbHeightMap.Name = "pbHeightMap";
-            this.pbHeightMap.Size = new System.Drawing.Size(96, 96);
-            this.pbHeightMap.TabIndex = 9;
-            this.pbHeightMap.TabStop = false;
-            // 
-            // pbObjectTexture
-            // 
-            this.pbObjectTexture.BackColor = System.Drawing.Color.White;
-            this.pbObjectTexture.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pbObjectTexture.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbObjectTexture.Enabled = false;
-            this.pbObjectTexture.Location = new System.Drawing.Point(114, 78);
-            this.pbObjectTexture.Name = "pbObjectTexture";
-            this.pbObjectTexture.Size = new System.Drawing.Size(96, 25);
-            this.pbObjectTexture.TabIndex = 7;
-            this.pbObjectTexture.TabStop = false;
-            // 
-            // pbObjectColor
-            // 
-            this.pbObjectColor.BackColor = System.Drawing.Color.White;
-            this.pbObjectColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbObjectColor.Location = new System.Drawing.Point(8, 78);
-            this.pbObjectColor.Name = "pbObjectColor";
-            this.pbObjectColor.Size = new System.Drawing.Size(96, 25);
-            this.pbObjectColor.TabIndex = 3;
-            this.pbObjectColor.TabStop = false;
-            // 
             // pbLightColor
             // 
             this.pbLightColor.BackColor = System.Drawing.Color.White;
@@ -392,6 +402,14 @@
             this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
             this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = "Image Files(*.bmp;*.jpg;*.png)|*.bmp;*.jpg;*.png";
+            // 
+            // timerAnimateLight
+            // 
+            this.timerAnimateLight.Tick += new System.EventHandler(this.timerAnimateLight_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -399,25 +417,30 @@
             this.ClientSize = new System.Drawing.Size(884, 461);
             this.Controls.Add(this.splitContainer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
             this.Text = "Filling";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
             this.splitContainer.Panel1.ResumeLayout(false);
             this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.panelForGroupBoxes.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbNormalMap)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbNormalMap)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbHeightMap)).EndInit();
+            this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbObjectTexture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbObjectColor)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbLightColor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
@@ -444,16 +467,17 @@
         private System.Windows.Forms.Panel panelForGroupBoxes;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton rbNormal2;
-        private System.Windows.Forms.RadioButton rbNormal1;
-        private System.Windows.Forms.Label rbLabel1;
         private System.Windows.Forms.Button btnSetNormalMap;
         private System.Windows.Forms.PictureBox pbNormalMap;
-        private System.Windows.Forms.Label rbLabel2;
-        private System.Windows.Forms.RadioButton rbD1;
         private System.Windows.Forms.PictureBox pbHeightMap;
         private System.Windows.Forms.Button btnSetHeightMap;
         private System.Windows.Forms.RadioButton rbD2;
         private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.RadioButton rbLightSource2;
+        private System.Windows.Forms.RadioButton rbLightSource1;
+        private System.Windows.Forms.RadioButton rbNormal1;
+        private System.Windows.Forms.RadioButton rbD1;
+        private System.Windows.Forms.Timer timerAnimateLight;
     }
 }
 

@@ -10,10 +10,13 @@ namespace Filling
     class PixelModyfication
     {
         public DirectBitmap Bitmap { get; private set; }
-        private Vector LightSource;
+        public Vector LightSource { get; private set; }
         private double[,] DotProducts;
         private Vector[,] NormalVectors;
+        private Vector[,] DVectors;
+        private Vector[,] NormalPlusDVectors;
         public DirectBitmap NormalMap { get; private set; }
+        public DirectBitmap HeightMap { get; private set; }
         private (double R, double G, double B) LightColor;
         private bool isLightRegular;
         private bool isNormalMapUsed;
@@ -24,14 +27,52 @@ namespace Filling
             SetLightColor(Color.White);
             DotProducts = new double[db.Width, db.Height];
             NormalVectors = new Vector[db.Width, db.Height];
+            DVectors = new Vector[db.Width, db.Height];
+            NormalPlusDVectors = new Vector[db.Width, db.Height];
             for (int i = 0; i < DotProducts.GetLength(0); i++)
             {
                 for (int j = 0; j < DotProducts.GetLength(1); j++)
                 {
                     NormalVectors[i, j] = new Vector(0, 0, 1);
+                    DVectors[i, j] = new Vector(0, 0, 0);
+                    NormalPlusDVectors[i, j] = GetVersor(NormalVectors[i, j] + DVectors[i, j]);
                     DotProducts[i, j] = DotProduct(NormalVectors[i, j], isLightRegular ? GetVersor(new Point(0, 0), LightSource) : GetVersor(new Point(i, j), LightSource));
                 }
             }
+        }
+
+        public void DisableHeightMap()
+        {
+            Vector v = new Vector(0, 0, 0);
+            for (int i = 0; i < DVectors.GetLength(0); i++)
+                for (int j = 0; j < DVectors.GetLength(1); j++)
+                    DVectors[i, j] = v;
+
+            CalculateNormalVectors();
+            CalculateDots();
+        }
+
+        public void UseHeightMap()
+        {
+            if (HeightMap == null)
+                return;
+
+            for (int i = 0; i < DVectors.GetLength(0) - 1; i++)
+            {
+                for (int j = 0; j < DVectors.GetLength(1) - 1; j++)
+                {
+                    // TODO Update this when Normal map changes
+                    double pixel = HeightMap.GetPixel(i, j).R;
+                    double dhx = HeightMap.GetPixel(i + 1, j).R - pixel;
+                    double dhy = HeightMap.GetPixel(i, j + 1).R - pixel;
+                    Vector T = new Vector(1, 0, -NormalVectors[i, j].X);
+                    Vector B = new Vector(0, 1, -NormalVectors[i, j].Y);
+                    DVectors[i, j] = GetVersor(new Vector(T.X * dhx + B.X * dhy, T.Y * dhx + B.Y * dhy, T.Z * dhx + B.Z * dhy));
+                    int k = 0;
+                }
+            }
+            CalculateNormalVectors();
+            CalculateDots();
         }
 
         public void UseNormalMap()
@@ -39,7 +80,6 @@ namespace Filling
             if (NormalMap == null)
                 return;
 
-            Vector vector;
             for (int i = 0; i < NormalVectors.GetLength(0); i++)
                 for (int j = 0; j < NormalVectors.GetLength(1); j++)
                 {
@@ -51,21 +91,29 @@ namespace Filling
                     NormalVectors[i, j].Z = (double)pixel.B * 2 / 255 - 1;
                 }
 
+            CalculateNormalVectors();
             CalculateDots();
         }
 
         public void UseStandardNormalVectors()
         {
-            Vector v = new Vector { X = 0, Y = 0, Z = 1 };
+            Vector v = new Vector(0, 0, 1);
             for (int i = 0; i < NormalVectors.GetLength(0); i++)
                 for (int j = 0; j < NormalVectors.GetLength(1); j++)
                     NormalVectors[i, j] = v;
+
+            CalculateNormalVectors();
             CalculateDots();
         }
 
         public void SetNormalMap(Bitmap bmp)
         {
             NormalMap = new DirectBitmap(bmp);
+        }
+
+        public void SetHeightMap(Bitmap bmp)
+        {
+            HeightMap = new DirectBitmap(bmp);
         }
 
         public void SetLightColor(Color col)
@@ -98,13 +146,24 @@ namespace Filling
         //    CalculateDots();
         //}
 
+        private void CalculateNormalVectors()
+        {
+            for (int i = 0; i < DotProducts.GetLength(0); i++)
+            {
+                for (int j = 0; j < DotProducts.GetLength(1); j++)
+                {
+                    NormalPlusDVectors[i,j] = GetVersor(NormalVectors[i, j] + DVectors[i, j]);
+                }
+            }
+        }
+
         private void CalculateDots()
         {
             for (int i = 0; i < DotProducts.GetLength(0); i++)
             {
                 for (int j = 0; j < DotProducts.GetLength(1); j++)
                 {
-                    DotProducts[i, j] = DotProduct(NormalVectors[i, j], isLightRegular ? GetVersor(new Point(0, 0), LightSource) : GetVersor(new Point(i, j), LightSource));
+                    DotProducts[i, j] = DotProduct(NormalPlusDVectors[i, j], isLightRegular ? GetVersor(new Point(0, 0), LightSource) : GetVersor(new Point(i, j), LightSource));
                     if (DotProducts[i, j] > 1)
                         DotProducts[i, j] = 1;
                     else if (DotProducts[i, j] < 0)
@@ -136,12 +195,15 @@ namespace Filling
             int r = (int)(LightColor.R * col.R * DotProducts[x, y]);
             int g = (int)(LightColor.G * col.G * DotProducts[x, y]);
             int b = (int)(LightColor.B * col.B * DotProducts[x, y]);
+
             return Color.FromArgb(col.A, r, g, b).ToArgb();
         }
 
         private Vector GetVersor(Vector v)
         {
             double d = Math.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
+            if (d == 0)
+                return v;
             return new Vector(v.X / d, v.Y / d, v.Z / d);
         }
 
@@ -149,6 +211,8 @@ namespace Filling
         {
             Vector res = new Vector { X = to.X - from.X, Y = to.Y - from.Y, Z = to.Z };
             double d = Math.Sqrt(res.X * res.X + res.Y * res.Y + res.Z * res.Z);
+            if (d == 0)
+                return res;
             res.X = res.X / d;
             res.Y = res.Y / d;
             res.Z = res.Z / d;
