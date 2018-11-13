@@ -17,18 +17,17 @@ namespace Filling
         // TODO Change accesability
         private const int D = 6;
         private bool isVerticeSelected = false;
-        private (Vertice v, Polygon p) selectedV = (null, null);
-        private Polygon selectedPolygon = null;
-        private List<Polygon> Polygons { get; set; }
-        private DirectBitmap Picture { get; set; }
-        private Color ObjectColor { get; set; }
-        private PixelModyfication SceneModyfication { get; set; }
-        private Bitmap ObjectTexture { get; set; }
-        private bool HasObjectTexture { get; set; } = false;
-        private bool BitmapProcessing { get; set; } = false;
+        private bool hasObjectTexture = false;
         private bool shiftPressed = false;
         private bool lmbPressed = false;
         private Point lastMousePosition = MousePosition;
+        private (Vertice v, Polygon p) selectedV = (null, null);
+        private Polygon selectedPolygon = null;
+        public List<Polygon> Polygons { get; set; }
+        public DirectBitmap Picture { get; set; }
+        public Color ObjectColor { get; set; }
+        public Bitmap ObjectTexture { get; set; }
+        public PixelModyfication SceneModyfication { get; set; }
 
         public MainForm()
         {
@@ -190,7 +189,7 @@ namespace Filling
                         {
                             for (int j = Math.Max((int)e1.X, 0); j < Math.Min((int)e2.X, Picture.Width); j++)
                             {
-                                Picture.SetPixel(j, y, SceneModyfication.CalculateColor(HasObjectTexture ? ObjectTexture.GetPixel(j, y) : ObjectColor, j, y));
+                                Picture.SetPixel(j, y, SceneModyfication.CalculateColor(hasObjectTexture ? ObjectTexture.GetPixel(j, y) : ObjectColor, j, y));
                             }
                             fill = false;
                         }
@@ -366,6 +365,16 @@ namespace Filling
             }
             lastMousePosition = e.Location;
         }
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ShiftKey)
+                shiftPressed = true;
+        }
+        private void MainForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ShiftKey)
+                shiftPressed = false;
+        }
 
         #endregion
 
@@ -378,7 +387,7 @@ namespace Filling
 
             btnSetObjectColor.Enabled = true;
             btnSetObjectTexture.Enabled = false;
-            HasObjectTexture = false;
+            hasObjectTexture = false;
             UpdateBitmap();
         }
         private void rbObjectColor2_CheckedChanged(object sender, EventArgs e)
@@ -388,7 +397,7 @@ namespace Filling
 
             btnSetObjectColor.Enabled = false;
             btnSetObjectTexture.Enabled = true;
-            HasObjectTexture = true;
+            hasObjectTexture = true;
             UpdateBitmap();
         }
         private void rbD1_CheckedChanged(object sender, EventArgs e)
@@ -426,6 +435,9 @@ namespace Filling
             btnSetNormalMap.Enabled = true;
             SceneModyfication.UseNormalMap();
             UpdateBitmap();
+            //SceneModyfication.BubbleCentre = new Point(pictureBox.Width / 2, pictureBox.Height / 2);
+            //SceneModyfication.EnableBubble();
+            //UpdateBitmap();
         }
         private void rbLightSource1_CheckedChanged(object sender, EventArgs e)
         {
@@ -507,18 +519,6 @@ namespace Filling
         {
             SceneModyfication.SetLightSource(new Vector(SceneModyfication.LightSource.X + 5, SceneModyfication.LightSource.Y + 5, 200));
             UpdateBitmap();
-        }
-
-        private void MainForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.ShiftKey)
-                shiftPressed = true;
-        }
-
-        private void MainForm_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.ShiftKey)
-                shiftPressed = false;
         }
     }
 }

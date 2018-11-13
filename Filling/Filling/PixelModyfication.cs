@@ -7,19 +7,26 @@ using System.Threading.Tasks;
 
 namespace Filling
 {
-    class PixelModyfication
+    public class PixelModyfication
     {
         public DirectBitmap Bitmap { get; private set; }
         public Vector LightSource { get; private set; }
+        public DirectBitmap NormalMap { get; private set; }
+        public DirectBitmap HeightMap { get; private set; }
+        public Point BubbleCentre { get; set; }
+
         private double[,] DotProducts;
         private Vector[,] NormalVectors;
         private Vector[,] DVectors;
         private Vector[,] NormalPlusDVectors;
-        public DirectBitmap NormalMap { get; private set; }
-        public DirectBitmap HeightMap { get; private set; }
+        private Vector[,] BubbleNormalVectors;
         private (double R, double G, double B) LightColor;
         private bool isLightRegular;
-        private bool isNormalMapUsed;
+        private bool isBubbleEnabled = false;
+        private const int BUBBLE_R = 60;
+        private const int BUBBLE_R2 = 60;
+        private const int BUBBLE_RSQUARE = BUBBLE_R * BUBBLE_R;
+        private const int BUBBLE_R2SQUARE = BUBBLE_R2 * BUBBLE_R2;
 
         public PixelModyfication(DirectBitmap db)
         {
@@ -29,6 +36,13 @@ namespace Filling
             NormalVectors = new Vector[db.Width, db.Height];
             DVectors = new Vector[db.Width, db.Height];
             NormalPlusDVectors = new Vector[db.Width, db.Height];
+            BubbleNormalVectors = new Vector[2 * BUBBLE_R2, 2 * BUBBLE_R2];
+            for(int i=-BUBBLE_R2;i< BUBBLE_R2; i++)
+                for(int j=-BUBBLE_R2; j< BUBBLE_R2; j++)
+                {
+                    int t = i * i + j * j;
+                    BubbleNormalVectors[BUBBLE_R2 + i, BUBBLE_R2 + j] = t >= BUBBLE_R2SQUARE ? new Vector(0, 0, 1) : GetVersor(new Vector(i, j, Math.Sqrt(BUBBLE_RSQUARE + t)));
+                }
             for (int i = 0; i < DotProducts.GetLength(0); i++)
             {
                 for (int j = 0; j < DotProducts.GetLength(1); j++)
@@ -68,9 +82,15 @@ namespace Filling
                     Vector T = new Vector(1, 0, -NormalVectors[i, j].X);
                     Vector B = new Vector(0, 1, -NormalVectors[i, j].Y);
                     DVectors[i, j] = GetVersor(new Vector(T.X * dhx + B.X * dhy, T.Y * dhx + B.Y * dhy, T.Z * dhx + B.Z * dhy));
-                    int k = 0;
                 }
             }
+            CalculateNormalVectors();
+            CalculateDots();
+        }
+
+        public void EnableBubble()
+        {
+            isBubbleEnabled = true;
             CalculateNormalVectors();
             CalculateDots();
         }
@@ -148,13 +168,26 @@ namespace Filling
 
         private void CalculateNormalVectors()
         {
-            for (int i = 0; i < DotProducts.GetLength(0); i++)
+            if (isBubbleEnabled)
             {
-                for (int j = 0; j < DotProducts.GetLength(1); j++)
-                {
-                    NormalPlusDVectors[i,j] = GetVersor(NormalVectors[i, j] + DVectors[i, j]);
-                }
+                Vector vertical = new Vector(0,0,1);
+                for (int i = 0; i < DotProducts.GetLength(0); i++)
+                    for (int j = 0; j < DotProducts.GetLength(1); j++)
+                        NormalPlusDVectors[i, j] = GetVersor(vertical + DVectors[i, j]);
+
+                int iMax = NormalPlusDVectors.GetLength(0) - BubbleCentre.X < BUBBLE_R2 ? BUBBLE_R2 + NormalPlusDVectors.GetLength(0) - BubbleCentre.X : 2 * BUBBLE_R2;
+                int jMax = NormalPlusDVectors.GetLength(1) - BubbleCentre.Y < BUBBLE_R2 ? BUBBLE_R2 + NormalPlusDVectors.GetLength(1) - BubbleCentre.Y : 2 * BUBBLE_R2;
+                for (int i = BubbleCentre.X - BUBBLE_R2 < 0 ? BUBBLE_R2-BubbleCentre.X : 0; i < iMax; i++)
+                    for (int j = BubbleCentre.Y - BUBBLE_R2 < 0 ? BUBBLE_R2 - BubbleCentre.Y : 0; j < jMax; j++)
+                        NormalPlusDVectors[BubbleCentre.X - BUBBLE_R2 + i, BubbleCentre.Y - BUBBLE_R2 + j] = GetVersor(BubbleNormalVectors[i, j] + DVectors[i, j]);
+                int c = 0;
             }
+            else
+                for (int i = 0; i < DotProducts.GetLength(0); i++)
+                    for (int j = 0; j < DotProducts.GetLength(1); j++)
+                        NormalPlusDVectors[i, j] = GetVersor(NormalVectors[i, j] + DVectors[i, j]);
+
+            int k = 0;
         }
 
         private void CalculateDots()

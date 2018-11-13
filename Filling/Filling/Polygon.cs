@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Filling
 {
-    class Polygon
+    public class Polygon
     {
         public Vertice[] Vertices { get; set; }
         public int[] VerticesSorted { get; set; }
@@ -68,7 +68,7 @@ namespace Filling
         }
     }
 
-    class Edge : IComparable, IEquatable<Edge>
+    class Edge : IComparable
     {
         public int YMax { get; set; }
         public double X { get; set; }
@@ -89,18 +89,12 @@ namespace Filling
             else if (X == ((Edge)obj).X) return 0;
             return 1;
         }
+        public override bool Equals(object obj) => obj is Edge && this == (obj as Edge);
+        public override int GetHashCode() => base.GetHashCode();
 
-        public bool Equals(Edge other) => this == other;
-
-        //public static Comparison<Edge> XComparator = (e1, e2) =>
-        //{
-        //    if (e1.X < e2.X) return -1;
-        //    else if (e1.X == e2.X) return 0;
-        //    return 1;
-        //};
     }
 
-    class Vertice
+    public class Vertice
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -113,7 +107,7 @@ namespace Filling
         //public Edge NextEdge { get; set; }
     }
 
-    struct Vector
+    public struct Vector
     {
         public double X { get; set; }
         public double Y { get; set; }
