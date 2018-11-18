@@ -20,6 +20,7 @@ namespace Filling
         private bool hasObjectTexture = false;
         private bool shiftPressed = false;
         private bool lmbPressed = false;
+        private bool isBubbleEnabled = false;
         private Point lastMousePosition = MousePosition;
         private (Vertice v, Polygon p) selectedV = (null, null);
         private Polygon selectedPolygon = null;
@@ -28,12 +29,14 @@ namespace Filling
         public Color ObjectColor { get; set; }
         public Bitmap ObjectTexture { get; set; }
         public PixelModyfication SceneModyfication { get; set; }
+        public PointAnimation LightAnimation { get; set; }
 
         public MainForm()
         {
             InitializeComponent();
             Polygons = new List<Polygon>();
             Picture = new DirectBitmap(pictureBox.ClientSize.Width, pictureBox.ClientSize.Height);
+            LightAnimation = new PointAnimation(new Point(Picture.Width / 2, Picture.Height / 2), 200, 10);
 
             SceneModyfication = new PixelModyfication(Picture);
             SceneModyfication.SetLightColor(Color.White);
@@ -281,6 +284,19 @@ namespace Filling
 
             return destImage;
         }
+        private Point GetPointOnBitmap(Point p)
+        {
+            int x = p.X, y = p.Y;
+            if (x < 0)
+                x = 0;
+            else if (x >= Picture.Width)
+                x = Picture.Width - 1;
+            if (y < 0)
+                y = 0;
+            else if (y >= Picture.Height)
+                y = Picture.Height - 1;
+            return new Point(x, y);
+        }
 
         #region Mouse & Keyboard events handlers
 
@@ -364,6 +380,12 @@ namespace Filling
                 }
             }
             lastMousePosition = e.Location;
+            if(isBubbleEnabled)
+            {
+                SceneModyfication.BubbleCentre = GetPointOnBitmap(lastMousePosition);
+                SceneModyfication.EnableBubble();
+                UpdateBitmap();
+            }
         }
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
@@ -378,7 +400,7 @@ namespace Filling
 
         #endregion
 
-        #region Button click handlers
+        #region Button/Radiobutton click handlers
 
         private void rbObjectColor1_CheckedChanged(object sender, EventArgs e)
         {
@@ -423,6 +445,7 @@ namespace Filling
             if (!(sender as RadioButton).Checked)
                 return;
 
+            isBubbleEnabled = false;
             btnSetNormalMap.Enabled = false;
             SceneModyfication.UseStandardNormalVectors();
             UpdateBitmap();
@@ -432,12 +455,21 @@ namespace Filling
             if (!(sender as RadioButton).Checked)
                 return;
 
+            btnSetNormalMap.Enabled = false;
+            isBubbleEnabled = true;
+            SceneModyfication.BubbleCentre = GetPointOnBitmap(lastMousePosition);
+            SceneModyfication.EnableBubble();
+            UpdateBitmap();
+        }
+        private void rbNormal3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!(sender as RadioButton).Checked)
+                return;
+
+            isBubbleEnabled = false;
             btnSetNormalMap.Enabled = true;
             SceneModyfication.UseNormalMap();
             UpdateBitmap();
-            //SceneModyfication.BubbleCentre = new Point(pictureBox.Width / 2, pictureBox.Height / 2);
-            //SceneModyfication.EnableBubble();
-            //UpdateBitmap();
         }
         private void rbLightSource1_CheckedChanged(object sender, EventArgs e)
         {
@@ -517,7 +549,7 @@ namespace Filling
 
         private void timerAnimateLight_Tick(object sender, EventArgs e)
         {
-            SceneModyfication.SetLightSource(new Vector(SceneModyfication.LightSource.X + 5, SceneModyfication.LightSource.Y + 5, 200));
+            SceneModyfication.SetLightSource(LightAnimation.GetNext());
             UpdateBitmap();
         }
     }

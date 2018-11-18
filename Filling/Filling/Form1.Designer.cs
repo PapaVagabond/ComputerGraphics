@@ -30,22 +30,21 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
-            this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.dialogSetLightColor = new System.Windows.Forms.ColorDialog();
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.timerAnimateLight = new System.Windows.Forms.Timer(this.components);
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.rbNormal1 = new System.Windows.Forms.RadioButton();
-            this.pbNormalMap = new System.Windows.Forms.PictureBox();
-            this.btnSetNormalMap = new System.Windows.Forms.Button();
-            this.rbNormal2 = new System.Windows.Forms.RadioButton();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnSetLightColour = new System.Windows.Forms.Button();
-            this.pbLightColor = new System.Windows.Forms.PictureBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panelLeft = new System.Windows.Forms.Panel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.rbLightSource2 = new System.Windows.Forms.RadioButton();
             this.rbLightSource1 = new System.Windows.Forms.RadioButton();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnSetLightColour = new System.Windows.Forms.Button();
+            this.pbLightColor = new System.Windows.Forms.PictureBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.rbNormal2 = new System.Windows.Forms.RadioButton();
+            this.rbNormal1 = new System.Windows.Forms.RadioButton();
+            this.pbNormalMap = new System.Windows.Forms.PictureBox();
+            this.btnSetNormalMap = new System.Windows.Forms.Button();
+            this.rbNormal3 = new System.Windows.Forms.RadioButton();
+            this.panelRight = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pbObjectTexture = new System.Windows.Forms.PictureBox();
             this.btnSetObjectTexture = new System.Windows.Forms.Button();
@@ -53,32 +52,33 @@
             this.rbObjectColor1 = new System.Windows.Forms.RadioButton();
             this.pbObjectColor = new System.Windows.Forms.PictureBox();
             this.btnSetObjectColor = new System.Windows.Forms.Button();
-            this.rbD2 = new System.Windows.Forms.RadioButton();
-            this.btnSetHeightMap = new System.Windows.Forms.Button();
-            this.pbHeightMap = new System.Windows.Forms.PictureBox();
-            this.rbD1 = new System.Windows.Forms.RadioButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.panelLeft = new System.Windows.Forms.Panel();
-            this.panelRight = new System.Windows.Forms.Panel();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.rbD1 = new System.Windows.Forms.RadioButton();
+            this.pbHeightMap = new System.Windows.Forms.PictureBox();
+            this.btnSetHeightMap = new System.Windows.Forms.Button();
+            this.rbD2 = new System.Windows.Forms.RadioButton();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.dialogSetLightColor = new System.Windows.Forms.ColorDialog();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.timerAnimateLight = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
             this.splitContainer.Panel1.SuspendLayout();
             this.splitContainer.Panel2.SuspendLayout();
             this.splitContainer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
-            this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbNormalMap)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.panelLeft.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbLightColor)).BeginInit();
-            this.groupBox5.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbNormalMap)).BeginInit();
+            this.panelRight.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbObjectTexture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbObjectColor)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHeightMap)).BeginInit();
             this.groupBox4.SuspendLayout();
-            this.panelLeft.SuspendLayout();
-            this.panelRight.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHeightMap)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer
@@ -100,125 +100,31 @@
             this.splitContainer.TabIndex = 0;
             this.splitContainer.TabStop = false;
             // 
-            // pictureBox
+            // tableLayoutPanel1
             // 
-            this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(650, 461);
-            this.pictureBox.TabIndex = 1;
-            this.pictureBox.TabStop = false;
-            this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
-            this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
-            this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.panelLeft, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panelRight, 1, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(230, 461);
+            this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // openFileDialog
+            // panelLeft
             // 
-            this.openFileDialog.Filter = "Image Files(*.bmp;*.jpg;*.png)|*.bmp;*.jpg;*.png";
-            // 
-            // timerAnimateLight
-            // 
-            this.timerAnimateLight.Tick += new System.EventHandler(this.timerAnimateLight_Tick);
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.radioButton1);
-            this.groupBox3.Controls.Add(this.rbNormal1);
-            this.groupBox3.Controls.Add(this.pbNormalMap);
-            this.groupBox3.Controls.Add(this.btnSetNormalMap);
-            this.groupBox3.Controls.Add(this.rbNormal2);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.groupBox3.Location = new System.Drawing.Point(0, 0);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(109, 254);
-            this.groupBox3.TabIndex = 5;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Normal vectors";
-            // 
-            // rbNormal1
-            // 
-            this.rbNormal1.AutoSize = true;
-            this.rbNormal1.Checked = true;
-            this.rbNormal1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.rbNormal1.Location = new System.Drawing.Point(8, 20);
-            this.rbNormal1.Name = "rbNormal1";
-            this.rbNormal1.Size = new System.Drawing.Size(78, 36);
-            this.rbNormal1.TabIndex = 9;
-            this.rbNormal1.TabStop = true;
-            this.rbNormal1.Text = "Constant\r\n[0,0,1]";
-            this.rbNormal1.UseVisualStyleBackColor = true;
-            this.rbNormal1.CheckedChanged += new System.EventHandler(this.rbNormal1_CheckedChanged);
-            // 
-            // pbNormalMap
-            // 
-            this.pbNormalMap.BackColor = System.Drawing.Color.White;
-            this.pbNormalMap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pbNormalMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbNormalMap.Enabled = false;
-            this.pbNormalMap.Location = new System.Drawing.Point(8, 150);
-            this.pbNormalMap.Name = "pbNormalMap";
-            this.pbNormalMap.Size = new System.Drawing.Size(96, 96);
-            this.pbNormalMap.TabIndex = 8;
-            this.pbNormalMap.TabStop = false;
-            // 
-            // btnSetNormalMap
-            // 
-            this.btnSetNormalMap.Enabled = false;
-            this.btnSetNormalMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnSetNormalMap.Location = new System.Drawing.Point(8, 119);
-            this.btnSetNormalMap.Name = "btnSetNormalMap";
-            this.btnSetNormalMap.Size = new System.Drawing.Size(96, 25);
-            this.btnSetNormalMap.TabIndex = 7;
-            this.btnSetNormalMap.Text = "Load texture";
-            this.btnSetNormalMap.UseVisualStyleBackColor = true;
-            this.btnSetNormalMap.Click += new System.EventHandler(this.btnSetNormalMap_Click);
-            // 
-            // rbNormal2
-            // 
-            this.rbNormal2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.rbNormal2.Location = new System.Drawing.Point(8, 88);
-            this.rbNormal2.Name = "rbNormal2";
-            this.rbNormal2.Size = new System.Drawing.Size(100, 25);
-            this.rbNormal2.TabIndex = 1;
-            this.rbNormal2.Text = "From texture";
-            this.rbNormal2.UseVisualStyleBackColor = true;
-            this.rbNormal2.CheckedChanged += new System.EventHandler(this.rbNormal2_CheckedChanged);
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.AutoSize = true;
-            this.groupBox1.Controls.Add(this.btnSetLightColour);
-            this.groupBox1.Controls.Add(this.pbLightColor);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.groupBox1.Location = new System.Drawing.Point(0, 254);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(109, 98);
-            this.groupBox1.TabIndex = 7;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Light color";
-            // 
-            // btnSetLightColour
-            // 
-            this.btnSetLightColour.Location = new System.Drawing.Point(8, 21);
-            this.btnSetLightColour.Name = "btnSetLightColour";
-            this.btnSetLightColour.Size = new System.Drawing.Size(96, 25);
-            this.btnSetLightColour.TabIndex = 1;
-            this.btnSetLightColour.Text = "Change";
-            this.btnSetLightColour.UseVisualStyleBackColor = true;
-            this.btnSetLightColour.Click += new System.EventHandler(this.btnSetLightColour_Click);
-            // 
-            // pbLightColor
-            // 
-            this.pbLightColor.BackColor = System.Drawing.Color.White;
-            this.pbLightColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbLightColor.Location = new System.Drawing.Point(8, 52);
-            this.pbLightColor.Name = "pbLightColor";
-            this.pbLightColor.Size = new System.Drawing.Size(96, 25);
-            this.pbLightColor.TabIndex = 0;
-            this.pbLightColor.TabStop = false;
+            this.panelLeft.Controls.Add(this.groupBox5);
+            this.panelLeft.Controls.Add(this.groupBox1);
+            this.panelLeft.Controls.Add(this.groupBox3);
+            this.panelLeft.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelLeft.Location = new System.Drawing.Point(3, 3);
+            this.panelLeft.Name = "panelLeft";
+            this.panelLeft.Size = new System.Drawing.Size(109, 455);
+            this.panelLeft.TabIndex = 9;
             // 
             // groupBox5
             // 
@@ -259,20 +165,128 @@
             this.rbLightSource1.UseVisualStyleBackColor = true;
             this.rbLightSource1.CheckedChanged += new System.EventHandler(this.rbLightSource1_CheckedChanged);
             // 
-            // tableLayoutPanel1
+            // groupBox1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.panelLeft, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panelRight, 1, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(230, 461);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.groupBox1.AutoSize = true;
+            this.groupBox1.Controls.Add(this.btnSetLightColour);
+            this.groupBox1.Controls.Add(this.pbLightColor);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.groupBox1.Location = new System.Drawing.Point(0, 254);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(109, 98);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Light color";
+            // 
+            // btnSetLightColour
+            // 
+            this.btnSetLightColour.Location = new System.Drawing.Point(8, 21);
+            this.btnSetLightColour.Name = "btnSetLightColour";
+            this.btnSetLightColour.Size = new System.Drawing.Size(96, 25);
+            this.btnSetLightColour.TabIndex = 1;
+            this.btnSetLightColour.Text = "Change";
+            this.btnSetLightColour.UseVisualStyleBackColor = true;
+            this.btnSetLightColour.Click += new System.EventHandler(this.btnSetLightColour_Click);
+            // 
+            // pbLightColor
+            // 
+            this.pbLightColor.BackColor = System.Drawing.Color.White;
+            this.pbLightColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbLightColor.Location = new System.Drawing.Point(8, 52);
+            this.pbLightColor.Name = "pbLightColor";
+            this.pbLightColor.Size = new System.Drawing.Size(96, 25);
+            this.pbLightColor.TabIndex = 0;
+            this.pbLightColor.TabStop = false;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.rbNormal2);
+            this.groupBox3.Controls.Add(this.rbNormal1);
+            this.groupBox3.Controls.Add(this.pbNormalMap);
+            this.groupBox3.Controls.Add(this.btnSetNormalMap);
+            this.groupBox3.Controls.Add(this.rbNormal3);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.groupBox3.Location = new System.Drawing.Point(0, 0);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(109, 254);
+            this.groupBox3.TabIndex = 5;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Normal vectors";
+            // 
+            // rbNormal2
+            // 
+            this.rbNormal2.AutoSize = true;
+            this.rbNormal2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.rbNormal2.Location = new System.Drawing.Point(8, 62);
+            this.rbNormal2.Name = "rbNormal2";
+            this.rbNormal2.Size = new System.Drawing.Size(69, 20);
+            this.rbNormal2.TabIndex = 10;
+            this.rbNormal2.TabStop = true;
+            this.rbNormal2.Text = "Bubble";
+            this.rbNormal2.UseVisualStyleBackColor = true;
+            this.rbNormal2.CheckedChanged += new System.EventHandler(this.rbNormal2_CheckedChanged);
+            // 
+            // rbNormal1
+            // 
+            this.rbNormal1.AutoSize = true;
+            this.rbNormal1.Checked = true;
+            this.rbNormal1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.rbNormal1.Location = new System.Drawing.Point(8, 20);
+            this.rbNormal1.Name = "rbNormal1";
+            this.rbNormal1.Size = new System.Drawing.Size(78, 36);
+            this.rbNormal1.TabIndex = 9;
+            this.rbNormal1.TabStop = true;
+            this.rbNormal1.Text = "Constant\r\n[0,0,1]";
+            this.rbNormal1.UseVisualStyleBackColor = true;
+            this.rbNormal1.CheckedChanged += new System.EventHandler(this.rbNormal1_CheckedChanged);
+            // 
+            // pbNormalMap
+            // 
+            this.pbNormalMap.BackColor = System.Drawing.Color.White;
+            this.pbNormalMap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pbNormalMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbNormalMap.Enabled = false;
+            this.pbNormalMap.Location = new System.Drawing.Point(8, 150);
+            this.pbNormalMap.Name = "pbNormalMap";
+            this.pbNormalMap.Size = new System.Drawing.Size(96, 96);
+            this.pbNormalMap.TabIndex = 8;
+            this.pbNormalMap.TabStop = false;
+            // 
+            // btnSetNormalMap
+            // 
+            this.btnSetNormalMap.Enabled = false;
+            this.btnSetNormalMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnSetNormalMap.Location = new System.Drawing.Point(8, 119);
+            this.btnSetNormalMap.Name = "btnSetNormalMap";
+            this.btnSetNormalMap.Size = new System.Drawing.Size(96, 25);
+            this.btnSetNormalMap.TabIndex = 7;
+            this.btnSetNormalMap.Text = "Load texture";
+            this.btnSetNormalMap.UseVisualStyleBackColor = true;
+            this.btnSetNormalMap.Click += new System.EventHandler(this.btnSetNormalMap_Click);
+            // 
+            // rbNormal3
+            // 
+            this.rbNormal3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.rbNormal3.Location = new System.Drawing.Point(8, 88);
+            this.rbNormal3.Name = "rbNormal3";
+            this.rbNormal3.Size = new System.Drawing.Size(100, 25);
+            this.rbNormal3.TabIndex = 1;
+            this.rbNormal3.Text = "From texture";
+            this.rbNormal3.UseVisualStyleBackColor = true;
+            this.rbNormal3.CheckedChanged += new System.EventHandler(this.rbNormal3_CheckedChanged);
+            // 
+            // panelRight
+            // 
+            this.panelRight.Controls.Add(this.groupBox2);
+            this.panelRight.Controls.Add(this.groupBox4);
+            this.panelRight.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelRight.Location = new System.Drawing.Point(118, 3);
+            this.panelRight.Name = "panelRight";
+            this.panelRight.Size = new System.Drawing.Size(109, 455);
+            this.panelRight.TabIndex = 10;
             // 
             // groupBox2
             // 
@@ -356,54 +370,6 @@
             this.btnSetObjectColor.UseVisualStyleBackColor = true;
             this.btnSetObjectColor.Click += new System.EventHandler(this.btnSetObjectColor_Click);
             // 
-            // rbD2
-            // 
-            this.rbD2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.rbD2.Location = new System.Drawing.Point(8, 62);
-            this.rbD2.Name = "rbD2";
-            this.rbD2.Size = new System.Drawing.Size(100, 25);
-            this.rbD2.TabIndex = 4;
-            this.rbD2.Text = "From texture";
-            this.rbD2.UseVisualStyleBackColor = true;
-            this.rbD2.CheckedChanged += new System.EventHandler(this.rbD2_CheckedChanged);
-            // 
-            // btnSetHeightMap
-            // 
-            this.btnSetHeightMap.Enabled = false;
-            this.btnSetHeightMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.btnSetHeightMap.Location = new System.Drawing.Point(8, 93);
-            this.btnSetHeightMap.Name = "btnSetHeightMap";
-            this.btnSetHeightMap.Size = new System.Drawing.Size(96, 25);
-            this.btnSetHeightMap.TabIndex = 8;
-            this.btnSetHeightMap.Text = "Load texture";
-            this.btnSetHeightMap.UseVisualStyleBackColor = true;
-            this.btnSetHeightMap.Click += new System.EventHandler(this.btnSetHeightMap_Click);
-            // 
-            // pbHeightMap
-            // 
-            this.pbHeightMap.BackColor = System.Drawing.Color.White;
-            this.pbHeightMap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pbHeightMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pbHeightMap.Enabled = false;
-            this.pbHeightMap.Location = new System.Drawing.Point(8, 124);
-            this.pbHeightMap.Name = "pbHeightMap";
-            this.pbHeightMap.Size = new System.Drawing.Size(96, 96);
-            this.pbHeightMap.TabIndex = 9;
-            this.pbHeightMap.TabStop = false;
-            // 
-            // rbD1
-            // 
-            this.rbD1.AutoSize = true;
-            this.rbD1.Checked = true;
-            this.rbD1.Location = new System.Drawing.Point(8, 21);
-            this.rbD1.Name = "rbD1";
-            this.rbD1.Size = new System.Drawing.Size(78, 36);
-            this.rbD1.TabIndex = 10;
-            this.rbD1.TabStop = true;
-            this.rbD1.Text = "Constant\r\n[0,0,0]";
-            this.rbD1.UseVisualStyleBackColor = true;
-            this.rbD1.CheckedChanged += new System.EventHandler(this.rbD1_CheckedChanged);
-            // 
             // groupBox4
             // 
             this.groupBox4.AutoSize = true;
@@ -421,38 +387,74 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Depth";
             // 
-            // panelLeft
+            // rbD1
             // 
-            this.panelLeft.Controls.Add(this.groupBox5);
-            this.panelLeft.Controls.Add(this.groupBox1);
-            this.panelLeft.Controls.Add(this.groupBox3);
-            this.panelLeft.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelLeft.Location = new System.Drawing.Point(3, 3);
-            this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(109, 455);
-            this.panelLeft.TabIndex = 9;
+            this.rbD1.AutoSize = true;
+            this.rbD1.Checked = true;
+            this.rbD1.Location = new System.Drawing.Point(8, 21);
+            this.rbD1.Name = "rbD1";
+            this.rbD1.Size = new System.Drawing.Size(78, 36);
+            this.rbD1.TabIndex = 10;
+            this.rbD1.TabStop = true;
+            this.rbD1.Text = "Constant\r\n[0,0,0]";
+            this.rbD1.UseVisualStyleBackColor = true;
+            this.rbD1.CheckedChanged += new System.EventHandler(this.rbD1_CheckedChanged);
             // 
-            // panelRight
+            // pbHeightMap
             // 
-            this.panelRight.Controls.Add(this.groupBox2);
-            this.panelRight.Controls.Add(this.groupBox4);
-            this.panelRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelRight.Location = new System.Drawing.Point(118, 3);
-            this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(109, 455);
-            this.panelRight.TabIndex = 10;
+            this.pbHeightMap.BackColor = System.Drawing.Color.White;
+            this.pbHeightMap.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pbHeightMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbHeightMap.Enabled = false;
+            this.pbHeightMap.Location = new System.Drawing.Point(8, 124);
+            this.pbHeightMap.Name = "pbHeightMap";
+            this.pbHeightMap.Size = new System.Drawing.Size(96, 96);
+            this.pbHeightMap.TabIndex = 9;
+            this.pbHeightMap.TabStop = false;
             // 
-            // radioButton1
+            // btnSetHeightMap
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.radioButton1.Location = new System.Drawing.Point(8, 62);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(69, 20);
-            this.radioButton1.TabIndex = 10;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Bubble";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.btnSetHeightMap.Enabled = false;
+            this.btnSetHeightMap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.btnSetHeightMap.Location = new System.Drawing.Point(8, 93);
+            this.btnSetHeightMap.Name = "btnSetHeightMap";
+            this.btnSetHeightMap.Size = new System.Drawing.Size(96, 25);
+            this.btnSetHeightMap.TabIndex = 8;
+            this.btnSetHeightMap.Text = "Load texture";
+            this.btnSetHeightMap.UseVisualStyleBackColor = true;
+            this.btnSetHeightMap.Click += new System.EventHandler(this.btnSetHeightMap_Click);
+            // 
+            // rbD2
+            // 
+            this.rbD2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.rbD2.Location = new System.Drawing.Point(8, 62);
+            this.rbD2.Name = "rbD2";
+            this.rbD2.Size = new System.Drawing.Size(100, 25);
+            this.rbD2.TabIndex = 4;
+            this.rbD2.Text = "From texture";
+            this.rbD2.UseVisualStyleBackColor = true;
+            this.rbD2.CheckedChanged += new System.EventHandler(this.rbD2_CheckedChanged);
+            // 
+            // pictureBox
+            // 
+            this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(650, 461);
+            this.pictureBox.TabIndex = 1;
+            this.pictureBox.TabStop = false;
+            this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
+            this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = "Image Files(*.bmp;*.jpg;*.png)|*.bmp;*.jpg;*.png";
+            // 
+            // timerAnimateLight
+            // 
+            this.timerAnimateLight.Interval = 50;
+            this.timerAnimateLight.Tick += new System.EventHandler(this.timerAnimateLight_Tick);
             // 
             // MainForm
             // 
@@ -472,25 +474,25 @@
             this.splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).EndInit();
             this.splitContainer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panelLeft.ResumeLayout(false);
+            this.panelLeft.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbLightColor)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbNormalMap)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbLightColor)).EndInit();
-            this.groupBox5.ResumeLayout(false);
-            this.groupBox5.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.panelRight.ResumeLayout(false);
+            this.panelRight.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbObjectTexture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbObjectColor)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbHeightMap)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.panelLeft.ResumeLayout(false);
-            this.panelLeft.PerformLayout();
-            this.panelRight.ResumeLayout(false);
-            this.panelRight.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbHeightMap)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -512,7 +514,7 @@
         private System.Windows.Forms.RadioButton rbNormal1;
         private System.Windows.Forms.PictureBox pbNormalMap;
         private System.Windows.Forms.Button btnSetNormalMap;
-        private System.Windows.Forms.RadioButton rbNormal2;
+        private System.Windows.Forms.RadioButton rbNormal3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.PictureBox pbObjectTexture;
@@ -528,7 +530,7 @@
         private System.Windows.Forms.Button btnSetHeightMap;
         private System.Windows.Forms.RadioButton rbD2;
         private System.Windows.Forms.Panel panelRight;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton rbNormal2;
     }
 }
 
