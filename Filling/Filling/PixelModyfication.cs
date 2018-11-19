@@ -197,9 +197,8 @@ namespace Filling
                 // TODO can be better
                 for (int i = BubbleCentre.X - BUBBLE_R2 < 0 ? BUBBLE_R2 - BubbleCentre.X : 0; i < iMax; i++)
                     for (int j = BubbleCentre.Y - BUBBLE_R2 < 0 ? BUBBLE_R2 - BubbleCentre.Y : 0; j < jMax; j++)
-                        if ((i - BubbleCentre.X) * (i - BubbleCentre.X) + (j - BubbleCentre.Y) * (j - BubbleCentre.Y) < BUBBLE_R2SQUARE)
+                        if ((i - BUBBLE_R2) * (i - BUBBLE_R2) + (j - BUBBLE_R2) * (j - BUBBLE_R2) < BUBBLE_R2SQUARE)
                             NormalVectors[BubbleCentre.X - BUBBLE_R2 + i, BubbleCentre.Y - BUBBLE_R2 + j] = BubbleNormalVectors[i, j];
-
             }
             else
             {
@@ -224,25 +223,28 @@ namespace Filling
 
         private void CalculateNormalPlusDVectors()
         {
-            if (isBubbleEnabled)
-            {
-                Vector vertical = new Vector(0, 0, 1);
-                for (int i = 0; i < DotProducts.GetLength(0); i++)
-                    for (int j = 0; j < DotProducts.GetLength(1); j++)
-                        NormalPlusDVectors[i, j] = GetVersor(vertical + DVectors[i, j]);
+            //if (isBubbleEnabled)
+            //{
+            //    Vector vertical = new Vector(0, 0, 1);
+            //    for (int i = 0; i < DotProducts.GetLength(0); i++)
+            //        for (int j = 0; j < DotProducts.GetLength(1); j++)
+            //            NormalPlusDVectors[i, j] = GetVersor(vertical + DVectors[i, j]);
 
-                int iMax = NormalPlusDVectors.GetLength(0) - BubbleCentre.X < BUBBLE_R2 ? BUBBLE_R2 + NormalPlusDVectors.GetLength(0) - BubbleCentre.X : 2 * BUBBLE_R2;
-                int jMax = NormalPlusDVectors.GetLength(1) - BubbleCentre.Y < BUBBLE_R2 ? BUBBLE_R2 + NormalPlusDVectors.GetLength(1) - BubbleCentre.Y : 2 * BUBBLE_R2;
+            //    int iMax = NormalPlusDVectors.GetLength(0) - BubbleCentre.X < BUBBLE_R2 ? BUBBLE_R2 + NormalPlusDVectors.GetLength(0) - BubbleCentre.X : 2 * BUBBLE_R2;
+            //    int jMax = NormalPlusDVectors.GetLength(1) - BubbleCentre.Y < BUBBLE_R2 ? BUBBLE_R2 + NormalPlusDVectors.GetLength(1) - BubbleCentre.Y : 2 * BUBBLE_R2;
 
-                // TODO it should be for each point in circle, not foreach point in square
-                for (int i = BubbleCentre.X - BUBBLE_R2 < 0 ? BUBBLE_R2 - BubbleCentre.X : 0; i < iMax; i++)
-                    for (int j = BubbleCentre.Y - BUBBLE_R2 < 0 ? BUBBLE_R2 - BubbleCentre.Y : 0; j < jMax; j++)
-                        NormalPlusDVectors[BubbleCentre.X - BUBBLE_R2 + i, BubbleCentre.Y - BUBBLE_R2 + j] = GetVersor(BubbleNormalVectors[i, j] + DVectors[i, j]);
-            }
-            else
-                for (int i = 0; i < DotProducts.GetLength(0); i++)
-                    for (int j = 0; j < DotProducts.GetLength(1); j++)
-                        NormalPlusDVectors[i, j] = GetVersor(NormalVectors[i, j] + DVectors[i, j]);
+            //    // TODO it should be for each point in circle, not foreach point in square
+            //    for (int i = BubbleCentre.X - BUBBLE_R2 < 0 ? BUBBLE_R2 - BubbleCentre.X : 0; i < iMax; i++)
+            //        for (int j = BubbleCentre.Y - BUBBLE_R2 < 0 ? BUBBLE_R2 - BubbleCentre.Y : 0; j < jMax; j++)
+            //            NormalPlusDVectors[BubbleCentre.X - BUBBLE_R2 + i, BubbleCentre.Y - BUBBLE_R2 + j] = GetVersor(BubbleNormalVectors[i, j] + DVectors[i, j]);
+            //}
+            //else
+            //    for (int i = 0; i < DotProducts.GetLength(0); i++)
+            //        for (int j = 0; j < DotProducts.GetLength(1); j++)
+            //            NormalPlusDVectors[i, j] = GetVersor(NormalVectors[i, j] + DVectors[i, j]);
+            for (int i = 0; i < DotProducts.GetLength(0); i++)
+                for (int j = 0; j < DotProducts.GetLength(1); j++)
+                    NormalPlusDVectors[i, j] = GetVersor(NormalVectors[i, j] + DVectors[i, j]);
 
             CalculateDots();
         }

@@ -85,14 +85,11 @@ namespace Filling
                     prev = v;
                 }
             }
-            //Picture.AlterPixels(SceneModyfication.CalculateColor);
-            //SceneModyfication.AlterPixels();
             pictureBox.Refresh();
         }
 
         private void DrawLine(Color color, Point p1, Point p2)
         {
-            // TODO Checking if coordinates are outside bitmap
             int x = p1.X, y = p1.Y, w = p2.X - p1.X, h = p2.Y - p1.Y;
             int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
             if (w < 0) dx1 = -1; else if (w > 0) dx1 = 1;
@@ -110,7 +107,8 @@ namespace Filling
             int numerator = longest >> 1;
             for (int i = 0; i <= longest; i++)
             {
-                Picture.SetPixel(x, y, color);
+                if (x >= 0 && x < Picture.Width && y >= 0 && y < Picture.Height)
+                    Picture.SetPixel(x, y, color);
                 numerator += shortest;
                 if (!(numerator < longest))
                 {
@@ -147,7 +145,6 @@ namespace Filling
                             YMax = Math.Max(prev.Y, v.Y),
                             X = prev.Y < v.Y ? prev.X : v.X,
                             Ctg = (double)(prev.X - v.X) / (prev.Y - v.Y),
-                            //Next = AET[y]
                         };
                         if (prev.Y >= v.Y)
                             AET.Add(edge);
@@ -163,7 +160,6 @@ namespace Filling
                             YMax = Math.Max(next.Y, v.Y),
                             X = next.Y < v.Y ? next.X : v.X,
                             Ctg = (double)(next.X - v.X) / (next.Y - v.Y),
-                            //Next = AET[y]
                         };
                         if (next.Y >= v.Y)
                             AET.Add(edge);
